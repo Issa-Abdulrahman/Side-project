@@ -1,16 +1,19 @@
 import db from "../models/index.js";
 
-const {User} = require('../models');
+// const {User} = require('../models');
+const { UserModel, MemeModel } = db;
 
-const UserController ={
-    async creatUser(req, res){
+export const creatUser = async (req, res) => {
+  const { firstName, lastName, email, password} = req.body;
         try{
-            const newUser = await User.create({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                password: req.body.password,
-            })
+            const newUser = await UserModel.create({
+                firstName,
+                lastName,
+                email,
+                password
+            });
+
+
             res.status(201).json(newUser);
         }catch(error){
             console.error(error);
@@ -18,10 +21,10 @@ const UserController ={
                 error: 'Error creating user'
             });
         }
-    },
-    async getAllUsers(req, res) {
+    }
+export const getAllUsers = async (req, res) => {
         try {
-          const users = await User.findAll();
+          const users = await UserModel.findAll();
           res.status(200).json(users);
         } catch (error) {
           console.error(error);
@@ -29,11 +32,11 @@ const UserController ={
             error: 'Error fetching users' 
         });
         }
-      },
-    async getUserById(req, res) {
+      }
+export const getUserById = async(req, res) => {
         const userId = req.params.id;
         try {
-          const user = await User.findByPk(userId);
+          const user = await UserModel.findByPk(userId);
           if (!user) {
             res.status(404).json({ 
                 error: 'User not found' 
@@ -47,11 +50,11 @@ const UserController ={
             error: 'Error fetching user' 
         });
         }
-      },
-      async updateUser(req, res) {
+      }
+export const updateUser = async(req, res) => {
         const userId = req.params.id;
         try {
-          const user = await User.findByPk(userId);
+          const user = await UserModel.findByPk(userId);
           if (!user) {
             res.status(404).json({
                  error: 'User not found' 
@@ -71,11 +74,11 @@ const UserController ={
             error: 'Error updating user' 
         });
         }
-       },
-       async deleteUser(req, res) {
+       }
+export const deleteUser = async(req, res) => {
          const userId = req.params.id;
          try {
-            const user = await User.findByPk(userId);
+            const user = await UserModel.findByPk(userId);
             if (!user) {
                 res.status(404).json({ 
                     error: 'User not found' 
@@ -90,7 +93,7 @@ const UserController ={
                 error: 'Error deleting user' 
             });
             }
-        },
-};
+        }
 
-module.exports = UserController;
+
+// module.exports = UserController;
