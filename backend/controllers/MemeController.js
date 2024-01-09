@@ -1,12 +1,14 @@
 import db from '../models/index.js';
+import { where } from 'sequelize';
 
 const { Meme, User } = db;
 
 export const createMeme = async (req, res) => {
-  const { image, caption, userId } = req.body;
+  const { caption, userId } = req.body;
+  const image = req.file.path;
   try {
     const newMeme = await Meme.create({
-      image,
+      image: image,
       caption,
       userId,
     });
@@ -26,8 +28,20 @@ export const getAllMemes = async (req, res) => {
   }
 };
 
+export const getMemeByUserId = async (req,res) => {
+  const { userId } = req.params;
+  try{
+    const memeUser = await Meme.findAll(
+      userId, {include: [User]}
+    )
+    return res.status(200).json(memeUser)
+  }catch(error){
+    return res.status(400).json({error: error.message});
+  }
+}
+
 export const getMemeById = async (req, res) => {
-  const memeId = req.params.id;
+  const {memeId} = req.params;
   try {
     const meme = await Meme.findByPk(memeId, {
       include: [{ model: User, attributes: ['id', 'firstName', 'lastName', 'email'] }],
@@ -44,15 +58,19 @@ export const getMemeById = async (req, res) => {
 };
 
 export const updateMeme = async (req, res) => {
-  const memeId = req.params.id;
+  const {memeId} = req.params;
+  const {caption, userId} = req.body;
+  const image = req.file.path;
   try {
     const meme = await Meme.findByPk(memeId);
     if (!meme) {
       res.status(404).json({ message: 'Meme not found' });
     } else {
-      meme.image = req.body.image || meme.image;
-      meme.caption = req.body.caption || meme.caption;
-      meme.userId = req.body.userId || meme.userId;
+
+      image:image,
+      caption,
+      userId,
+     
 
       await meme.save();
       res.status(200).json({ message: 'Meme updated successfully', data: meme });
@@ -63,13 +81,13 @@ export const updateMeme = async (req, res) => {
 };
 
 export const deleteMeme = async (req, res) => {
-  const memeId = req.params.id;
+  const {memeId} = req.params;
   try {
     const meme = await Meme.findByPk(memeId);
     if (!meme) {
       res.status(404).json({ message: 'Meme not found' });
     } else {
-      await meme.destroy();
+      await meme.destroy({where: {memeId}});
       res.status(204).send();
     }
   } catch (error) {
