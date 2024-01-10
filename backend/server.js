@@ -1,11 +1,11 @@
-import { Express } from "express";
+import  express  from "express";
 import db from "./models/index.js";
 import memesRoutes from "./routes/MemesRoutes.js"
 import cookieParser from "cookie-parser";
 import authRoutes from"./routes/AuthRoutes.js";
 import cors from "cors";
+import dotenv from 'dotenv';
 
-import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
