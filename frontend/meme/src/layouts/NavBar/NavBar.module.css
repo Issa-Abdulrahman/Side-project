@@ -1,0 +1,27 @@
+.header{
+    width: 100%;
+    background: FAFAFB;
+    box-shadow: 2px 2px 3px #DCDEE5;
+}
+
+.nav{
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.linksWrapper{
+    list-style: none;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0;
+}
+
+.linksWrapper > li > a{
+text-decoration: none;
+cursor: pointer;
+color: #202325;
+font-size: 14px;
+}
