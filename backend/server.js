@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from"./routes/AuthRoutes.js";
 import cors from "cors";
 import dotenv from 'dotenv';
+import userRoutes from "./routes/UserRoutes.js"
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use('/meme', memesRoutes);
 app.use('/auth', authRoutes);
-app.use('/user', authRoutes);
+app.use('/user', userRoutes);
 
 app.listen( port, async() => {
     console.log(`server is running  on port ${port}`)
