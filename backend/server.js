@@ -17,6 +17,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use('/meme', memesRoutes);
 app.use('/auth', authRoutes);
+app.use('/user', authRoutes);
 
 app.listen( port, async() => {
     console.log(`server is running  on port ${port}`)
