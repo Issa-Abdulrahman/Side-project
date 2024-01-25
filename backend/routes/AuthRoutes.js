@@ -1,4 +1,5 @@
 import express from 'express';
+// const express = require("express");
 import { authenticate } from '../middlewares/authmiddlewares.js';
 import {
   signup,

@@ -1,7 +1,10 @@
 import { Sequelize } from "sequelize";
 import dotenv from 'dotenv';
 import User from "./user.js";
+// const User = require ('./user.js')
 import Meme from "./meme.js";
+// const Meme = require('./meme.js');
+
 
 dotenv.config();
 const sequelize = new Sequelize(

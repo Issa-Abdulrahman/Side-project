@@ -1,5 +1,6 @@
 import db from '../models/index.js';
 import { generateToken } from '../utils/jwt.js';
+import bcrypt from 'bcrypt'
 const {UserModel} = db
 export const signup = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -26,7 +27,8 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await UserModel.findOne({ where: { email } });
-        if (!user || !user.validPassword(password)) {
+        const validPassword = bcrypt.compare(user.password , password)
+        if (!user || !validPassword) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
         const token = generateToken(user);

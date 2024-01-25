@@ -11,9 +11,9 @@ export const generateToken = (user) => {
             name: user.name,
             email: user.email,
         },
-        secret, { expiresIn: '24h' }); 
+        'secret_key', { expiresIn: '24h' }); 
 };
 
 export const verifyToken = (token) => {
-    return jwt.verify(token, secret);
+    return jwt.verify(token, 'secret_key');
 };
