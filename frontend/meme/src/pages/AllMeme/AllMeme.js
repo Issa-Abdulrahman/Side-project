@@ -4,6 +4,7 @@ import style from './AllMemes.module.css'
 // import filter from "axios";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../../layouts/NavBar/NavBar.js';
 // import magnifire from '../../assets/icons/magnifire.jpeg'
 
 const Memes = () => {
@@ -32,6 +33,7 @@ const Memes = () => {
   return (
     <>
     <div>
+      <Navbar/>
       <h1 className={style.titleh1}>Memes Collection</h1>
       <form className={style.memeSearch}>
         <input
@@ -48,16 +50,24 @@ const Memes = () => {
       </form>
       </div>
     <div className={style.mainCards}>
-      {isLoading ? (
-        <p>Loading....</p>
-      ):(
-        memes.map((Meme) => (
-          <Link to={``} key={Meme.id}>
-          <MemeCard key={Meme.id} library={Meme} />
-          </Link>
-        ))
-      )}
-      </div>
+  {isLoading ? (
+    <div className={style.loaderContainer}>
+       <div className={style.loader}></div>
+       <div className={style.loaderText}>Loading...</div>
+    </div>
+  ) : (
+    memes && Array.isArray(memes) ? (
+      memes.map((meme) => (
+        <Link to={``} key={meme.id}>
+          <MemeCard key={meme.id} meme={meme} />
+        </Link>
+      ))
+    ) : (
+      <div>No memes found</div>
+    )
+  )}
+</div>
+
     </>
   )
 }
